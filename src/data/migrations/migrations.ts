@@ -14,6 +14,35 @@ class Migrations extends BaseDatabase {
       );
       `);
 
+      await this.getConnection().raw(`
+      CREATE TABLE IF NOT EXISTS Labefy_Music (
+        id VARCHAR(255) PRIMARY KEY,
+        title VARCHAR (255) NOT NULL,
+        author VARCHAR(255) NOT NULL,
+        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        file VARCHAR(255) NOT NULL,
+        album VARCHAR(255) NOT NULL,
+        user_id VARCHAR(255) NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES Labefy_Users(id)
+      );
+      `);
+
+      await this.getConnection().raw(`
+      CREATE TABLE IF NOT EXISTS Labefy_Genre (
+        id VARCHAR(255) PRIMARY KEY,
+        type VARCHAR(255) NOT NULL
+      );
+      `);
+
+      await this.getConnection().raw(`
+      CREATE TABLE IF NOT EXISTS Labefy_MusicGenre (
+        music_id VARCHAR(255) NOT NULL,
+        genre_id VARCHAR(255) NOT NULL,
+        FOREIGN KEY(music_id) REFERENCES Labefy_Music(id),
+        FOREIGN KEY(genre_id) REFERENCES Labefy_Genre(id)
+      );
+      `);
+
       console.log("Tables created.");
 
       this.getConnection().destroy();
