@@ -1,3 +1,5 @@
+import { BaseError } from "../error/BaseError";
+
 export class User {
   constructor(
     public readonly id: string,
@@ -17,7 +19,7 @@ export class User {
       case "SUBSCRIBER":
         return UserRole.SUBSCRIBER;
       default:
-        throw new Error("Invalid user role");
+        throw new BaseError("Invalid user role", 422);
     }
   }
 

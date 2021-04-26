@@ -19,15 +19,17 @@ export class UserDatabase extends BaseDatabase {
     }
   };
 
-  public login = async (email: string): Promise<User> => {
+  public getUserByEmail = async (email: string): Promise<User> => {
     try {
       const result = await this.getConnection()
         .select("*")
         .from(this.tableNames.users)
-        .where({ email })
+        .where({ email });
       return User.toUserModel(result[0]);
     } catch (error) {
       throw new Error(error.message || error.sqlMessage);
     }
   };
 }
+
+export default new UserDatabase();

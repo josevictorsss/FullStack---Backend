@@ -65,7 +65,7 @@ class UserBusiness {
       if (email.indexOf("@") === -1) {
         throw new BaseError("Invalid email format", 422);
       }
-      const userFromDB = await this.userDatabase.login(email);
+      const userFromDB = await this.userDatabase.getUserByEmail(email);
       if (!userFromDB) {
         throw new BaseError("Invalid credentials", 401);
       }
