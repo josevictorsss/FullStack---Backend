@@ -1,6 +1,6 @@
 import { UserDatabase } from "../data/UserDatabase";
 import { BaseError } from "../error/BaseError";
-import { User, UserInputDTO } from "../model/User";
+import { LoginInputDTO, User, UserInputDTO } from "../model/User";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
@@ -50,6 +50,36 @@ class UserBusiness {
         role: role,
       });
 
+      return acessToken;
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
+
+  public login = async (input: LoginInputDTO) => {
+    try {
+      const { email, password } = input;
+      if (!email || !password) {
+        throw new BaseError("Please, fill the fields email and password", 422);
+      }
+      if (email.indexOf("@") === -1) {
+        throw new BaseError("Invalid email format", 422);
+      }
+      const userFromDB = await this.userDatabase.login(email);
+      if (!userFromDB) {
+        throw new BaseError("Invalid credentials", 401);
+      }
+      const hashCompare = await this.hashManager.compare(
+        password,
+        userFromDB.password
+      );
+      if (!hashCompare) {
+        throw new BaseError("Invalid credentails", 401);
+      }
+      const acessToken = this.authenticator.generateToken({
+        id: userFromDB.id,
+        role: userFromDB.role,
+      });
       return acessToken;
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);

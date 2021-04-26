@@ -7,6 +7,10 @@ dotenv.config();
 export abstract class BaseDatabase {
   private static connection: Knex | null = null;
 
+  protected tableNames = {
+    users: "Labefy_Users",
+  };
+
   public getConnection(): Knex {
     if (!BaseDatabase.connection) {
       BaseDatabase.connection = knex({

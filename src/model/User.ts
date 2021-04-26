@@ -20,6 +20,17 @@ export class User {
         throw new Error("Invalid user role");
     }
   }
+
+  static toUserModel(user: any): User {
+    return new User(
+      user.id,
+      user.name,
+      user.email,
+      user.nickname,
+      user.password,
+      User.stringToUserRole(user.role)
+    );
+  }
 }
 
 export interface UserInputDTO {
@@ -28,6 +39,11 @@ export interface UserInputDTO {
   nickname: string;
   password: string;
   role: string;
+}
+
+export interface LoginInputDTO {
+  email: string;
+  password: string;
 }
 
 export enum UserRole {
