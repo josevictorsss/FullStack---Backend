@@ -1,6 +1,6 @@
 import * as jwt from "jsonwebtoken";
 
-interface AuthenticationData {
+export interface AuthenticationData {
   id: string;
 }
 

@@ -9,6 +9,9 @@ export abstract class BaseDatabase {
 
   protected tableNames = {
     users: "Labefy_Users",
+    musics: "Labefy_Music",
+    genre: "Labefy_Genre",
+    musicGenre: "Labefy_MusicGenre",
   };
 
   public getConnection(): Knex {
