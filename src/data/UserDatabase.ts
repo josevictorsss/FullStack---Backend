@@ -11,7 +11,6 @@ export class UserDatabase extends BaseDatabase {
           email: user.email,
           nickname: user.nickname,
           password: user.password,
-          role: user.role,
         })
         .into(this.tableNames.users);
     } catch (error) {

@@ -9,12 +9,9 @@ class Migrations extends BaseDatabase {
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         nickname VARCHAR(255)  NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        role VARCHAR(255) NOT NULL DEFAULT "NORMAL" 
+        password VARCHAR(255) NOT NULL
       );
-      `);
 
-      await this.getConnection().raw(`
       CREATE TABLE IF NOT EXISTS Labefy_Music (
         id VARCHAR(255) PRIMARY KEY,
         title VARCHAR (255) NOT NULL,
@@ -25,16 +22,12 @@ class Migrations extends BaseDatabase {
         user_id VARCHAR(255) NOT NULL,
         FOREIGN KEY (user_id) REFERENCES Labefy_Users(id)
       );
-      `);
 
-      await this.getConnection().raw(`
       CREATE TABLE IF NOT EXISTS Labefy_Genre (
         id VARCHAR(255) PRIMARY KEY,
         type VARCHAR(255) NOT NULL
       );
-      `);
 
-      await this.getConnection().raw(`
       CREATE TABLE IF NOT EXISTS Labefy_MusicGenre (
         music_id VARCHAR(255) NOT NULL,
         genre_id VARCHAR(255) NOT NULL,

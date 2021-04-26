@@ -15,9 +15,8 @@ class UserBusiness {
 
   public signup = async (input: UserInputDTO) => {
     try {
-      const { name, email, nickname, password, role } = input;
-      const userRole = User.stringToUserRole(role);
-      if (!name || !email || !nickname || !password || !role) {
+      const { name, email, nickname, password } = input;
+      if (!name || !email || !nickname || !password) {
         throw new BaseError("Invalid parameters to signup", 422);
       }
       if (email.indexOf("@") === -1) {
@@ -34,20 +33,12 @@ class UserBusiness {
 
       const hashPassword = await this.hashManager.hash(password);
 
-      const newUser = new User(
-        id,
-        name,
-        email,
-        nickname,
-        hashPassword,
-        userRole
-      );
+      const newUser = new User(id, name, email, nickname, hashPassword);
 
       await this.userDatabase.signup(newUser);
 
       const acessToken = this.authenticator.generateToken({
         id,
-        role: role,
       });
 
       return acessToken;
@@ -78,7 +69,6 @@ class UserBusiness {
       }
       const acessToken = this.authenticator.generateToken({
         id: userFromDB.id,
-        role: userFromDB.role,
       });
       return acessToken;
     } catch (error) {

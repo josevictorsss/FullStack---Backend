@@ -1,8 +1,6 @@
-import { UserRole } from "../../src/model/User";
-
 export const authenticator = {
   generateToken: jest.fn(
-    (payload: { id: string; role: UserRole }) => "token"
+    (payload: { id: string;}) => "token"
   ),
   getData: jest.fn((token: string) => {
     switch (token) {

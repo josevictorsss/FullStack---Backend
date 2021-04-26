@@ -1,5 +1,4 @@
 import { UserBusiness } from "../src/business/UserBusiness";
-import { UserInputDTO, UserRole } from "../src/model/User";
 import { authenticator } from "./mocks/AuthenticatorMock";
 import { idGenerator } from "./mocks/IdGeneratorMock";
 import { userDatabase } from "./mocks/UserDatabaseMock";
@@ -20,7 +19,6 @@ describe("Signup", () => {
       email: "jose@gmail.com",
       nickname: "José",
       password: "123456789",
-      role: UserRole.NORMAL,
     };
     try {
       await userBusiness.signup(newUser);
@@ -37,7 +35,6 @@ describe("Signup", () => {
         email: "josegmail.com",
         nickname: "José",
         password: "123456789",
-        role: UserRole.NORMAL,
       };
       await userBusiness.signup(newUser);
     } catch (error) {
@@ -53,7 +50,6 @@ describe("Signup", () => {
         email: "josevictortf@gmail.com",
         nickname: "José",
         password: "1",
-        role: UserRole.NORMAL,
       };
       await userBusiness.signup(newUser);
     } catch (error) {
@@ -61,22 +57,6 @@ describe("Signup", () => {
       expect(error.message).toBe(
         "'Password' must contain at leats 6 characters"
       );
-    }
-  });
-  test("Error when role is invalid", async () => {
-    expect.assertions(2);
-    try {
-      const newUser = {
-        name: "José",
-        email: "jose@gmail.com",
-        nickname: "José",
-        password: "123456789",
-        role: "GUEST",
-      };
-      await userBusiness.signup(newUser);
-    } catch (error) {
-      expect(error.statusCode).toBe(422);
-      expect(error.message).toBe("Invalid user role");
     }
   });
 });

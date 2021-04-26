@@ -15,13 +15,12 @@ const userBusiness = new UserBusiness(
 class UserController {
   public signup = async (req: Request, res: Response) => {
     try {
-      const { name, email, nickname, password, role } = req.body;
+      const { name, email, nickname, password } = req.body;
       const input: UserInputDTO = {
         name,
         email,
         nickname,
         password,
-        role,
       };
       const token = await userBusiness.signup(input);
       res.status(201).send({ token });
