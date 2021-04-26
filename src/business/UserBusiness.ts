@@ -1,0 +1,3 @@
+class UserBusiness {}
+
+export { UserBusiness };
