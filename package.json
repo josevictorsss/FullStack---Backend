@@ -4,9 +4,9 @@
   "description": "Projeto FullStack da Labenu - Backend",
   "main": "index.js",
   "scripts": {
-    "migrations": "clear && echo \"Creating tables...\" && tsc && node ./build/data/migrations/migrations.js",
+    "migrations": "clear && echo \"Creating tables...\" && tsc && node ./build/src/data/migrations/migrations.js",
     "dev": "clear && ts-node-dev ./src/server.ts",
-    "start": "tsc && node --inspect ./build/src/index.js",
+    "start": "tsc && node --inspect ./build/src/app.js",
     "test": "clear && echo \"Running tests...\" && jest"
   },
   "repository": {
