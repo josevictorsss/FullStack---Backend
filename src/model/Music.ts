@@ -14,6 +14,19 @@ export class Music {
   public setGenres = (genres: Genre[]) => {
     this.genres = genres;
   };
+
+  static toMusicModel(music: any, genres: Genre[]): Music {
+    return new Music(
+      music.id,
+      music.title,
+      music.author,
+      music.createdAt,
+      music.file,
+      genres,
+      music.album,
+      music.userId
+    );
+  }
 }
 
 export interface MusicInputDTO {

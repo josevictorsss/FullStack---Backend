@@ -29,6 +29,17 @@ class MusicController {
       res.status(error.statusCode || 400).send({ message: error.message });
     }
   };
+
+  public getMusicById = async (req: Request, res: Response) => {
+    try {
+      const token: string = req.headers.authorization as string;
+      const { id } = req.params;
+      const musicId = await musicBusiness.getMusicById(token, id);
+      res.status(200).send({ Music: musicId });
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ message: error.message });
+    }
+  };
 }
 
 export { MusicController };

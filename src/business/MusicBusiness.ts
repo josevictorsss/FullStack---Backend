@@ -45,6 +45,24 @@ class MusicBusiness {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
   };
+
+  public getMusicById = async (token: string, id: string): Promise<Music> => {
+    try {
+      const authentication: AuthenticationData = this.authenticator.getData(
+        token
+      );
+      const music = await this.musicDatabase.selectMusicById(
+        id,
+        authentication.id
+      );
+      if (!music) {
+        throw new BaseError("Music not found", 404);
+      }
+      return music;
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
 }
 
 export { MusicBusiness };
