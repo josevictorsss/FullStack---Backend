@@ -25,6 +25,15 @@ export interface UserInputDTO {
   password: string;
 }
 
+export interface UserOutputDTO {
+  acessToken: string;
+  user: {
+    id: string;
+    email: string;
+    nickname: string;
+  };
+}
+
 export interface LoginInputDTO {
   email: string;
   password: string;

@@ -22,8 +22,8 @@ class UserController {
         nickname,
         password,
       };
-      const token = await userBusiness.signup(input);
-      res.status(201).send({ token });
+      const result = await userBusiness.signup(input);
+      res.status(201).send(result);
     } catch (error) {
       res.status(error.statusCode || 400).send({ message: error.message });
     }
@@ -36,8 +36,8 @@ class UserController {
         email,
         password,
       };
-      const token = await userBusiness.login(input);
-      res.status(200).send({ token });
+      const result = await userBusiness.login(input);
+      res.status(200).send(result);
     } catch (error) {
       res.status(error.statusCode).send({ message: error.message });
     }

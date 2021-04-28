@@ -1,6 +1,11 @@
 import { UserDatabase } from "../data/UserDatabase";
 import { BaseError } from "../error/BaseError";
-import { LoginInputDTO, User, UserInputDTO } from "../model/User";
+import {
+  LoginInputDTO,
+  User,
+  UserInputDTO,
+  UserOutputDTO,
+} from "../model/User";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
@@ -13,7 +18,7 @@ class UserBusiness {
     private userDatabase: UserDatabase
   ) {}
 
-  public signup = async (input: UserInputDTO): Promise<string> => {
+  public signup = async (input: UserInputDTO): Promise<UserOutputDTO> => {
     try {
       const { name, email, nickname, password } = input;
       if (!name || !email || !nickname || !password) {
@@ -28,26 +33,25 @@ class UserBusiness {
           422
         );
       }
-
       const id = this.idGenerator.generate();
-
       const hashPassword = await this.hashManager.hash(password);
-
       const newUser = new User(id, name, email, nickname, hashPassword);
-
       await this.userDatabase.signup(newUser);
-
       const acessToken = this.authenticator.generateToken({
         id,
       });
-
-      return acessToken;
+      const user = {
+        id,
+        email,
+        nickname,
+      };
+      return { acessToken, user };
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
   };
 
-  public login = async (input: LoginInputDTO): Promise<string> => {
+  public login = async (input: LoginInputDTO): Promise<UserOutputDTO> => {
     try {
       const { email, password } = input;
       if (!email || !password) {
@@ -67,10 +71,16 @@ class UserBusiness {
       if (!hashCompare) {
         throw new BaseError("Invalid credentails", 401);
       }
+      const user = {
+        id: userFromDB.id,
+        email: userFromDB.email,
+        nickname: userFromDB.nickname,
+      };
+
       const acessToken = this.authenticator.generateToken({
         id: userFromDB.id,
       });
-      return acessToken;
+      return { acessToken, user };
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
