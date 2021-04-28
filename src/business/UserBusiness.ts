@@ -13,7 +13,7 @@ class UserBusiness {
     private userDatabase: UserDatabase
   ) {}
 
-  public signup = async (input: UserInputDTO) => {
+  public signup = async (input: UserInputDTO): Promise<string> => {
     try {
       const { name, email, nickname, password } = input;
       if (!name || !email || !nickname || !password) {
@@ -47,7 +47,7 @@ class UserBusiness {
     }
   };
 
-  public login = async (input: LoginInputDTO) => {
+  public login = async (input: LoginInputDTO): Promise<string> => {
     try {
       const { email, password } = input;
       if (!email || !password) {
