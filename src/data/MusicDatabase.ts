@@ -39,4 +39,23 @@ export class MusicDatabase extends BaseDatabase {
       throw new Error(error.mesage || error.sqlMessage);
     }
   };
+
+  public selectAllMusics = async (userId: string): Promise<Music[]> => {
+    try {
+      const result = await this.getConnection()
+        .select("*")
+        .from(this.tableNames.musics)
+        .where({ user_id: userId });
+      const musics: Music[] = [];
+      for (let data of result) {
+        const genreResult = await this.genreDatabase.selectMusicByGenre(
+          data.id
+        );
+        musics.push(Music.toMusicModel(data, genreResult));
+      }
+      return musics;
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }

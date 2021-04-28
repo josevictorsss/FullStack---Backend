@@ -40,6 +40,16 @@ class MusicController {
       res.status(error.statusCode || 400).send({ message: error.message });
     }
   };
+
+  public getAllMusics = async (req: Request, res: Response) => {
+    try {
+      const token: string = req.headers.authorization as string;
+      const musics = await musicBusiness.getAllMusics(token);
+      res.status(200).send({ Feed: musics });
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ message: error.message });
+    }
+  };
 }
 
 export { MusicController };

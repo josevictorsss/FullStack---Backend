@@ -1,5 +1,5 @@
 import { MusicDatabase } from "../data/MusicDatabase";
-import { Genre, Music, MusicInputDTO } from "../model/Music";
+import { AllMusics, Genre, Music, MusicInputDTO } from "../model/Music";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 import { AuthenticationData } from "../services/Authenticator";
@@ -59,6 +59,36 @@ class MusicBusiness {
         throw new BaseError("Music not found", 404);
       }
       return music;
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
+
+  public getAllMusics = async (token: string): Promise<AllMusics[]> => {
+    try {
+      const authentication: AuthenticationData = this.authenticator.getData(
+        token
+      );
+      const result = await this.musicDatabase.selectAllMusics(
+        authentication.id
+      );
+      if (!result) {
+        throw new BaseError("You don't have any music", 404);
+      }
+      const musics = result.map((item) => {
+        const genres = item.getGenres().map((genre) => genre.type);
+        return {
+          id: item.id,
+          title: item.title,
+          author: item.author,
+          createdAt: dayjs(item.createdAt).format("DD/MM/YYYY"),
+          file: item.file,
+          genres: genres,
+          album: item.album,
+          userId: item.userId,
+        };
+      });
+      return musics;
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }

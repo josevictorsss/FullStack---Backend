@@ -29,6 +29,16 @@ export class Music {
   }
 }
 
+export type AllMusics = {
+  id: string;
+  title: string;
+  author: string;
+  createdAt: string;
+  file: string;
+  genres: string[];
+  album: string;
+  userId: string;
+};
 export interface MusicInputDTO {
   title: string;
   author: string;
