@@ -40,4 +40,21 @@ export class GenreDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage);
     }
   };
+
+  public selectAllGenres = async (): Promise<string[]> => {
+    try {
+      const result = await this.getConnection()
+        .select("*")
+        .from(this.tableNames.genre)
+        .distinct("type");
+
+      const genres: string[] = [];
+      for (let data of result) {
+        result && genres.push(data.type);
+      }
+      return genres;
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }
