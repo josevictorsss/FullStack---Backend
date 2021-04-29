@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { MusicBusiness } from "../business/MusicBusiness";
+import { GenreDatabase } from "../data/GenreDatabase";
 import { MusicDatabase } from "../data/MusicDatabase";
 import { MusicInputDTO } from "../model/Music";
 import { Authenticator } from "../services/Authenticator";
@@ -8,7 +9,8 @@ import { IdGenerator } from "../services/IdGenerator";
 const musicBusiness = new MusicBusiness(
   new IdGenerator(),
   new Authenticator(),
-  new MusicDatabase()
+  new MusicDatabase(),
+  new GenreDatabase()
 );
 
 class MusicController {

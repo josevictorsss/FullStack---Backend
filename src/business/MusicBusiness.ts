@@ -5,12 +5,14 @@ import { IdGenerator } from "../services/IdGenerator";
 import { AuthenticationData } from "../services/Authenticator";
 import { BaseError } from "../error/BaseError";
 import dayjs from "dayjs";
+import { GenreDatabase } from "../data/GenreDatabase";
 
 class MusicBusiness {
   constructor(
     private idGenerator: IdGenerator,
     private authenticator: Authenticator,
-    private musicDatabase: MusicDatabase
+    private musicDatabase: MusicDatabase,
+    private genreDatabase: GenreDatabase
   ) {}
 
   public addMusic = async (token: string, input: MusicInputDTO) => {
@@ -89,6 +91,18 @@ class MusicBusiness {
         };
       });
       return musics;
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
+
+  public getAllGenres = async (): Promise<string[]> => {
+    try {
+      const result = await this.genreDatabase.selectAllGenres();
+      if (!result) {
+        throw new BaseError("Don't have any genre", 404);
+      }
+      return result;
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
