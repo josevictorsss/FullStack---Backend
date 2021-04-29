@@ -7,4 +7,5 @@ const musicController = new MusicController();
 
 musicRouter.post("/add", musicController.addMusic);
 musicRouter.get("/all", musicController.getAllMusics);
+musicRouter.get("/genres", musicController.getAllGenres);
 musicRouter.get("/:id", musicController.getMusicById);

@@ -52,6 +52,15 @@ class MusicController {
       res.status(error.statusCode || 400).send({ message: error.message });
     }
   };
+
+  public getAllGenres = async (req: Request, res: Response) => {
+    try {
+      const genres = await musicBusiness.getAllGenres();
+      res.status(200).send(genres);
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ message: error.message });
+    }
+  };
 }
 
 export { MusicController };
