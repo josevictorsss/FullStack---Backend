@@ -44,9 +44,8 @@ export class GenreDatabase extends BaseDatabase {
   public selectAllGenres = async (): Promise<string[]> => {
     try {
       const result = await this.getConnection()
-        .select("*")
-        .from(this.tableNames.genre)
-        .distinct("type");
+        .distinct("type")
+        .from(this.tableNames.genre);
 
       const genres: string[] = [];
       for (let data of result) {
