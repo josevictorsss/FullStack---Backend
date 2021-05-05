@@ -34,6 +34,15 @@ class Migrations extends BaseDatabase {
         FOREIGN KEY(music_id) REFERENCES Labefy_Music(id),
         FOREIGN KEY(genre_id) REFERENCES Labefy_Genre(id)
       );
+      
+      CREATE TABLE IF NOT EXISTS Labefy_Playlist(
+        id VARCHAR(255) PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        subtitle VARCHAR(255) NOT NULL,
+        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        user_id VARCHAR(255) NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES Labefy_Users(id)
+      );
       `);
 
       console.log("Tables created.");
