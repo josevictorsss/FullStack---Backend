@@ -12,6 +12,7 @@ export abstract class BaseDatabase {
     musics: "Labefy_Music",
     genre: "Labefy_Genre",
     musicGenre: "Labefy_MusicGenre",
+    playlists: "Labefy_Playlist"
   };
 
   public getConnection(): Knex {
