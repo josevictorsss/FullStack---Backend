@@ -17,4 +17,20 @@ export class PlaylistDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage);
     }
   };
+
+  public selectUserPlaylists = async (userId: string): Promise<Playlist[]> => {
+    try {
+      const result = await this.getConnection()
+        .select("*")
+        .from(this.tableNames.playlists)
+        .where({ user_id: userId });
+      const playlists: Playlist[] = [];
+      for (let data of result) {
+        playlists.push(Playlist.toPlaylistModel(data));
+      }
+      return playlists;
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }
