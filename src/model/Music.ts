@@ -20,7 +20,7 @@ export class Music {
       music.id,
       music.title,
       music.author,
-      music.createdAt,
+      music.date,
       music.file,
       genres,
       music.album,
