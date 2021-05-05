@@ -29,6 +29,19 @@ class PlaylistController {
       res.status(error.statusCode || 400).send({ message: error.message });
     }
   };
+
+  public getUserPlaylists = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const token: string = req.headers.authorization as string;
+      const playlists = await playlistBusiness.getUsersPlaylists(token);
+      res.status(200).send(playlists);
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ message: error.message });
+    }
+  };
 }
 
 export { PlaylistController };
