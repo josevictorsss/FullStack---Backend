@@ -34,6 +34,32 @@ class PlaylistBusiness {
     await this.playlistDatabase.insertPlaylist(newPlaylist);
     return newPlaylist;
   };
+
+  public getUsersPlaylists = async (token: string): Promise<Playlist[]> => {
+    try {
+      const authentication: AuthenticationData = this.authenticator.getData(
+        token
+      );
+      const result = await this.playlistDatabase.selectUserPlaylists(
+        authentication.id
+      );
+      if (!result) {
+        throw new BaseError("You don't have any playlists", 404);
+      }
+      const playlists = result.map((item) => {
+        return {
+          id: item.id,
+          title: item.title,
+          subtitle: item.subtitle,
+          createdAt: dayjs(item.createdAt).format("DD/MM/YYYY"),
+          userId: item.userId,
+        };
+      });
+      return playlists;
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
 }
 
 export { PlaylistBusiness };
