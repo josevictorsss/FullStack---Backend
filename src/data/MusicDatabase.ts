@@ -58,4 +58,17 @@ export class MusicDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage);
     }
   };
+
+  public removeMusic = async (id: string, userId: string): Promise<any> => {
+    try {
+      await this.genreDatabase.removeMusicGenre(id);
+      await this.getConnection()
+        .delete()
+        .from("Labefy_Music")
+        .where({ id: id })
+        .andWhere({ user_id: userId });
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }

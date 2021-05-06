@@ -107,6 +107,21 @@ class MusicBusiness {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
   };
+
+  public deleteMusic = async (id: string, token: string) => {
+    try {
+      const authentication: AuthenticationData = this.authenticator.getData(
+        token
+      );
+      const result = await this.musicDatabase.removeMusic(
+        id,
+        authentication.id
+      );
+      return result;
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
 }
 
 export { MusicBusiness };

@@ -56,4 +56,17 @@ export class GenreDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage);
     }
   };
+
+  public removeMusicGenre = async (
+    musicId: string,
+  ): Promise<void> => {
+    try {
+      await this.getConnection()
+        .delete()
+        .from("Labefy_MusicGenre")
+        .where({ music_id: musicId });
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }

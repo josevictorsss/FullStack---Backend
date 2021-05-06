@@ -61,6 +61,17 @@ class MusicController {
       res.status(error.statusCode || 400).send({ message: error.message });
     }
   };
+
+  public deleteMusic = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const token: string = req.headers.authorization as string;
+      await musicBusiness.deleteMusic(id, token);
+      res.status(200);
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ message: error.message });
+    }
+  };
 }
 
 export { MusicController };
