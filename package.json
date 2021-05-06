@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "migrations": "clear && echo \"Creating tables...\" && tsc && node ./build/src/data/migrations/migrations.js",
+    "populate": "clear && echo \"Populating tables...\" && tsc && node ./build/src/data/migrations/populate.js",
     "dev": "clear && ts-node-dev ./src/server.ts",
     "start": "tsc && node --inspect ./build/src/server.js",
     "test": "clear && echo \"Running tests...\" && jest"
