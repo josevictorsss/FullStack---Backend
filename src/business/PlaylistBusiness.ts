@@ -46,16 +46,7 @@ class PlaylistBusiness {
       if (!result) {
         throw new BaseError("You don't have any playlists", 404);
       }
-      const playlists = result.map((item) => {
-        return {
-          id: item.id,
-          title: item.title,
-          subtitle: item.subtitle,
-          createdAt: dayjs(item.createdAt).format("DD/MM/YYYY"),
-          userId: item.userId,
-        };
-      });
-      return playlists;
+      return result;
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
