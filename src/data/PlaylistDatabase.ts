@@ -1,3 +1,4 @@
+import { AllMusics } from "../model/Music";
 import { Playlist } from "../model/Playlist";
 import { BaseDatabase } from "./BaseDatabase";
 
@@ -61,6 +62,24 @@ export class PlaylistDatabase extends BaseDatabase {
           music_id: musicId,
         })
         .into(this.tableNames.playlistMusics);
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
+
+  public selectPlaylistMusics = async (playlistId: string, userId: string) => {
+    try {
+      const result = await this.getConnection()
+        .select("id", "title", "author", "date")
+        .from(this.tableNames.musics)
+        .join(this.tableNames.playlistMusics, "music_id", "id")
+        .where({ playlist_id: playlistId })
+        .andWhere({ user_id: userId });
+      const musics: AllMusics[] = [];
+      for (let data of result) {
+        musics.push(Playlist.toAllMusics(data));
+      }
+      return musics;
     } catch (error) {
       throw new Error(error.message || error.sqlMessage);
     }

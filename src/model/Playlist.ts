@@ -1,4 +1,4 @@
-import { Music } from "./Music";
+import { AllMusics, Music } from "./Music";
 
 export class Playlist {
   constructor(
@@ -22,6 +22,17 @@ export class Playlist {
       playlist.subtitle,
       playlist.date,
       playlist.user_id
+    );
+  };
+
+  static toAllMusics = (music: any): AllMusics => {
+    return (
+      music && {
+        id: music.id,
+        title: music.title,
+        author: music.author,
+        createdAt: music.date,
+      }
     );
   };
 }
