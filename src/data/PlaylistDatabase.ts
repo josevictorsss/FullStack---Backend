@@ -71,7 +71,7 @@ export class PlaylistDatabase extends BaseDatabase {
     try {
       const result = await this.getConnection()
         .innerJoin(this.tableNames.playlistMusics, "music_id", "id")
-        .select("id", "title", "author", "date")
+        .select("id", "title", "author", "date", "album")
         .from(this.tableNames.musics)
         .where({ playlist_id: playlistId })
         .andWhere({ user_id: userId });
