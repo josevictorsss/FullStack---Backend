@@ -43,6 +43,13 @@ class Migrations extends BaseDatabase {
         user_id VARCHAR(255) NOT NULL,
         FOREIGN KEY (user_id) REFERENCES Labefy_Users(id)
       );
+
+      CREATE TABLE IF NOT EXITS Labefy_PlaylistMusic (
+        playlist_id VARCHAR(255) NOT NULL,
+        music_id VARCHAR(255) NOT NULL,
+        FOREIGN KEY(playlist_id) REFERENCES Labefy_Playlist,
+        FOREIGN KEY(music_id) REFERENCES Labefy_Music(id)
+      )
       `);
 
       console.log("Tables created.");
