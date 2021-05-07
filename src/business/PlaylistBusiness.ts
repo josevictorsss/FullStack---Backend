@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { MusicDatabase } from "../data/MusicDatabase";
 import { PlaylistDatabase } from "../data/PlaylistDatabase";
 import { BaseError } from "../error/BaseError";
+import { AllMusics } from "../model/Music";
 import { InsertMusicDTO, Playlist, PlaylistInputDTO } from "../model/Playlist";
 import { AuthenticationData, Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -78,6 +79,27 @@ class PlaylistBusiness {
         throw new BaseError("Playlist doens't exist", 404);
       }
       await this.playlistDatabase.insertMusicPlaylist(musicId, playlistId);
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
+
+  public getPlaylistMusics = async (
+    token: string,
+    playlistId: string
+  ): Promise<AllMusics[]> => {
+    try {
+      const authentication: AuthenticationData = this.authenticator.getData(
+        token
+      );
+      const result = await this.playlistDatabase.selectPlaylistMusics(
+        playlistId,
+        authentication.id
+      );
+      if (!result) {
+        throw new BaseError("Don't have musics in this playlist", 404);
+      }
+      return result;
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
