@@ -33,4 +33,20 @@ export class PlaylistDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage);
     }
   };
+
+  public selectPlaylistById = async (
+    id: string,
+    userId: string
+  ): Promise<Playlist> => {
+    try {
+      const result = await this.getConnection()
+        .select("*")
+        .from(this.tableNames.playlists)
+        .where({ id })
+        .andWhere({ user_id: userId });
+      return Playlist.toPlaylistModel(result[0]);
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }
