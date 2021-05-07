@@ -30,3 +30,8 @@ export interface PlaylistInputDTO {
   title: string;
   subtitle: string;
 }
+
+export interface InsertMusicDTO {
+  playlistId: string;
+  musicId: string;
+}

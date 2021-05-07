@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { PlaylistDatabase } from "../data/PlaylistDatabase";
 import { BaseError } from "../error/BaseError";
-import { Playlist, PlaylistInputDTO } from "../model/Playlist";
+import { InsertMusicDTO, Playlist, PlaylistInputDTO } from "../model/Playlist";
 import { AuthenticationData, Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
@@ -47,6 +47,18 @@ class PlaylistBusiness {
         throw new BaseError("You don't have any playlists", 404);
       }
       return result;
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
+
+  public addTrackPlaylist = async (input: InsertMusicDTO) => {
+    try {
+      const { musicId, playlistId } = input;
+      if (!musicId || !playlistId) {
+        throw new BaseError("Missing parameters", 422);
+      }
+      await this.playlistDatabase.insertMusicPlaylist(musicId, playlistId);
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }
