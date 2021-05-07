@@ -49,4 +49,20 @@ export class PlaylistDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage);
     }
   };
+
+  public insertMusicPlaylist = async (
+    musicId: string,
+    playlistId: string
+  ): Promise<void> => {
+    try {
+      await this.getConnection()
+        .insert({
+          playlist_id: playlistId,
+          music_id: musicId,
+        })
+        .into(this.tableNames.playlistMusics);
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }
