@@ -7,3 +7,4 @@ const playlistController = new PlaylistController();
 
 playlistRouter.post("/create", playlistController.createPlaylist);
 playlistRouter.get("/", playlistController.getUserPlaylists);
+playlistRouter.put("/music", playlistController.addMusicToPlaylist);

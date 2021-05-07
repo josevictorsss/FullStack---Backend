@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { MusicDatabase } from "../data/MusicDatabase";
 import { PlaylistDatabase } from "../data/PlaylistDatabase";
 import { BaseError } from "../error/BaseError";
 import { InsertMusicDTO, Playlist, PlaylistInputDTO } from "../model/Playlist";
@@ -9,7 +10,8 @@ class PlaylistBusiness {
   constructor(
     private idGenerator: IdGenerator,
     private authenticator: Authenticator,
-    private playlistDatabase: PlaylistDatabase
+    private playlistDatabase: PlaylistDatabase,
+    private musicDatabase: MusicDatabase
   ) {}
 
   public createPlaylist = async (
@@ -52,11 +54,28 @@ class PlaylistBusiness {
     }
   };
 
-  public addTrackPlaylist = async (input: InsertMusicDTO) => {
+  public addTrackPlaylist = async (token: string, input: InsertMusicDTO) => {
     try {
+      const authentication: AuthenticationData = this.authenticator.getData(
+        token
+      );
       const { musicId, playlistId } = input;
       if (!musicId || !playlistId) {
         throw new BaseError("Missing parameters", 422);
+      }
+      const music = await this.musicDatabase.selectMusicById(
+        musicId,
+        authentication.id
+      );
+      if (!music) {
+        throw new BaseError("Music doens't exist", 404);
+      }
+      const playlist = await this.playlistDatabase.selectPlaylistById(
+        playlistId,
+        authentication.id
+      );
+      if (!playlist) {
+        throw new BaseError("Playlist doens't exist", 404);
       }
       await this.playlistDatabase.insertMusicPlaylist(musicId, playlistId);
     } catch (error) {
