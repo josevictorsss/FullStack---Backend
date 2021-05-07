@@ -34,10 +34,10 @@ export type AllMusics = {
   title: string;
   author: string;
   createdAt: string;
-  file: string;
-  genres: string[];
-  album: string;
-  userId: string;
+  file?: string;
+  genres?: string[];
+  album?: string;
+  userId?: string;
 };
 export interface MusicInputDTO {
   title: string;

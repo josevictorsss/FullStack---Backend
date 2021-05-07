@@ -62,6 +62,20 @@ class PlaylistController {
       res.status(error.statusCode || 400).send({ message: error.message });
     }
   };
+
+  public getPlaylistMusics = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const token: string = req.headers.authorization as string;
+      const id = req.params.playlistId as string;
+      const result = await playlistBusiness.getPlaylistMusics(token, id);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ message: error.message });
+    }
+  };
 }
 
 export { PlaylistController };

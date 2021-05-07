@@ -70,9 +70,9 @@ export class PlaylistDatabase extends BaseDatabase {
   public selectPlaylistMusics = async (playlistId: string, userId: string) => {
     try {
       const result = await this.getConnection()
+        .innerJoin(this.tableNames.playlistMusics, "music_id", "id")
         .select("id", "title", "author", "date")
         .from(this.tableNames.musics)
-        .join(this.tableNames.playlistMusics, "music_id", "id")
         .where({ playlist_id: playlistId })
         .andWhere({ user_id: userId });
       const musics: AllMusics[] = [];
