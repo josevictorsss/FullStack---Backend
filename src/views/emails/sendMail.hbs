@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Labefy</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+        body {
+            margin: 0;
+            padding: 0;
+            left: 0;
+            top: 0;
+            background-color: white;
+        }
+        h1 {
+            font-family: 'Roboto';
+            font-weight: 600;
+            color: rgba(5, 45, 84, 1);
+            margin-left: 2px;
+        }
+        p {
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 11pt;
+            color: rgba(5, 45, 84, 1);
+            margin-left: 2px;
+        }
+        h3 {
+            margin-top: 50px;
+            color: rgba(5, 45, 84, .25);
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 10pt;
+            width: 80vw;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: rgba(5, 45, 84, 1);
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 10pt;
+        }
+        .page-container {
+            width: 800px;
+            margin-left: 10vw;
+        }
+        .divider {
+            height: 1px;
+            width: 100%;
+            background-color: rgba(5, 45, 84, .1);
+            margin-bottom: 40px;
+        }
+        .button-container {
+            width: 100%;
+            height: 50px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        .cta {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 46px;
+            font-size: 11pt;
+            font-family: 'Roboto';
+            font-weight: 500;
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: #7692FF;
+            border-radius: 5px;
+            box-shadow: 0px 4px rgba(118, 146, 255, .25);
+        }
+        .password-p {
+            margin-top: 15px;
+            color: white;
+        }
+        .footer-container {
+            width: 100%;
+            margin-top: 50px;
+            padding-bottom: 10px;
+            background-color: rgba(5, 45, 84, .04);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="divider"></div>
+        <h1>Labefy</h1>
+        <p>
+            Olá {{name}}. Alguém (esperamos que você) solicitou a redefinição da senha da sua conta do Cookenu. A sua
+            nova senha está logo abaixo. Se você não solicitou esta redefinição de senha, basta ignorar este email e
+            continuar.
+        </p>
+        <div class="button-container">
+            <div class="cta">
+                <p class="password-p">{{password}}</p>
+            </div>
+        </div>
+        <p>
+            Caso você tenha alguma dúvida, basta responder este email.
+        </p>
+        <p>
+            - Team Labefy
+        </p>
+    </div>
+    <div class="footer-container">
+        <h3 class="footer">
+            Se você precisar de ajuda, responda a esta mensagem. Se esta mensagem foi enviada a você por engano nos
+            desculpe.
+        </h3>
+        <h2>Labefy 2021</h2>
+    </div>
+</body>
+
+</html>

@@ -9,6 +9,10 @@ import {
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
+import transporter from "../services/sendMailService";
+import fs from "fs";
+import handlebars from "handlebars";
+import { resolve } from "path";
 
 class UserBusiness {
   constructor(
@@ -81,6 +85,56 @@ class UserBusiness {
         id: userFromDB.id,
       });
       return { acessToken, user };
+    } catch (error) {
+      throw new BaseError(error.message || error.sqlMessage, error.statusCode);
+    }
+  };
+
+  public updatePassword = async (email: string): Promise<void> => {
+    try {
+      if (!email) {
+        throw new BaseError("Please provide an email", 422);
+      }
+      const user = await this.userDatabase.getUserByEmail(email);
+      if (!user) {
+        throw new BaseError("User doens't exist", 404);
+      }
+      const characters: string = "0123456789abcdefABCDEF@#-*";
+      let newPassword: string = "";
+      for (let i = 0; i < 12; i++) {
+        const randomIndex: number = Math.floor(
+          Math.random() * characters.length
+        );
+        newPassword += characters[randomIndex];
+      }
+      const hashPassword: string = await this.hashManager.hash(newPassword);
+      const result = await this.userDatabase.resetPassword(email, hashPassword);
+      const npsPath = resolve(
+        __dirname,
+        "..",
+        "views",
+        "emails",
+        "sendMail.hbs"
+      );
+
+      const variables = {
+        password: newPassword,
+        name: user.name,
+      };
+
+      const templateFileContent = fs.readFileSync(npsPath).toString("utf8");
+
+      const mailTemplateParse = handlebars.compile(templateFileContent);
+
+      const mailHtml = mailTemplateParse(variables);
+
+      const mailer = await transporter.sendMail({
+        from: `Labefy <${process.env.NODEMAILER_USER}`,
+        to: email,
+        subject: "Sua senha do Labefy",
+        html: mailHtml,
+      });
+      return result;
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
     }

@@ -29,6 +29,20 @@ export class UserDatabase extends BaseDatabase {
       throw new Error(error.message || error.sqlMessage);
     }
   };
+
+  public resetPassword = async (
+    email: string,
+    password: string
+  ): Promise<void> => {
+    try {
+      await this.getConnection()
+        .update({ password: password })
+        .from(this.tableNames.users)
+        .where({ email });
+    } catch (error) {
+      throw new Error(error.message || error.sqlMessage);
+    }
+  };
 }
 
 export default new UserDatabase();

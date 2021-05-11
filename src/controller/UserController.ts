@@ -42,6 +42,20 @@ class UserController {
       res.status(error.statusCode).send({ message: error.message });
     }
   };
+
+  public resetPassword = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { email } = req.body;
+      const result = await userBusiness.updatePassword(email);
+      res
+        .status(200)
+        .send({
+          message: `Sua senha foi alterada, por favor cheque seu email: ${email}`,
+        });
+    } catch (error) {
+      res.status(error.statusCode).send({ message: error.message });
+    }
+  };
 }
 
 export { UserController };
