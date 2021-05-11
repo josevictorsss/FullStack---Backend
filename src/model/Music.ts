@@ -1,3 +1,5 @@
+import { Playlist } from "./Playlist";
+
 export class Music {
   constructor(
     public readonly id: string,

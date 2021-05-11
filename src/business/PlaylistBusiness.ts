@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { MusicDatabase } from "../data/MusicDatabase";
 import { PlaylistDatabase } from "../data/PlaylistDatabase";
 import { BaseError } from "../error/BaseError";
-import { AllMusics } from "../model/Music";
 import { InsertMusicDTO, Playlist, PlaylistInputDTO } from "../model/Playlist";
 import { AuthenticationData, Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -19,9 +18,8 @@ class PlaylistBusiness {
     token: string,
     input: PlaylistInputDTO
   ): Promise<Playlist> => {
-    const authentication: AuthenticationData = this.authenticator.getData(
-      token
-    );
+    const authentication: AuthenticationData =
+      this.authenticator.getData(token);
     const { title, subtitle } = input;
     if (!title || !subtitle) {
       throw new BaseError("Invalid parameters to create an playlist", 422);
@@ -40,9 +38,8 @@ class PlaylistBusiness {
 
   public getUsersPlaylists = async (token: string): Promise<Playlist[]> => {
     try {
-      const authentication: AuthenticationData = this.authenticator.getData(
-        token
-      );
+      const authentication: AuthenticationData =
+        this.authenticator.getData(token);
       const result = await this.playlistDatabase.selectUserPlaylists(
         authentication.id
       );
@@ -57,9 +54,8 @@ class PlaylistBusiness {
 
   public addTrackPlaylist = async (token: string, input: InsertMusicDTO) => {
     try {
-      const authentication: AuthenticationData = this.authenticator.getData(
-        token
-      );
+      const authentication: AuthenticationData =
+        this.authenticator.getData(token);
       const { musicId, playlistId } = input;
       if (!musicId || !playlistId) {
         throw new BaseError("Missing parameters", 422);
@@ -87,18 +83,25 @@ class PlaylistBusiness {
   public getPlaylistMusics = async (
     token: string,
     playlistId: string
-  ): Promise<AllMusics[]> => {
+  ): Promise<any> => {
     try {
-      const authentication: AuthenticationData = this.authenticator.getData(
-        token
-      );
-      const result = await this.playlistDatabase.selectPlaylistMusics(
+      const authentication: AuthenticationData =
+        this.authenticator.getData(token);
+      const musics = await this.playlistDatabase.selectPlaylistMusics(
         playlistId,
         authentication.id
       );
-      if (!result) {
+      if (!musics) {
         throw new BaseError("Don't have musics in this playlist", 404);
       }
+      const playlistInfo = await this.playlistDatabase.selectPlaylistById(
+        playlistId,
+        authentication.id
+      );
+      const result = {
+        musics,
+        playlistInfo,
+      };
       return result;
     } catch (error) {
       throw new BaseError(error.message || error.sqlMessage, error.statusCode);
