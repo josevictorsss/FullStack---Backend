@@ -52,7 +52,10 @@ class PlaylistBusiness {
     }
   };
 
-  public addTrackPlaylist = async (token: string, input: InsertMusicDTO) => {
+  public addTrackPlaylist = async (
+    token: string,
+    input: InsertMusicDTO
+  ): Promise<void> => {
     try {
       const authentication: AuthenticationData =
         this.authenticator.getData(token);

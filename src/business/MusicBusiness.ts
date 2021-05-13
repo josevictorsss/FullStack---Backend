@@ -15,11 +15,13 @@ class MusicBusiness {
     private genreDatabase: GenreDatabase
   ) {}
 
-  public addMusic = async (token: string, input: MusicInputDTO) => {
+  public addMusic = async (
+    token: string,
+    input: MusicInputDTO
+  ): Promise<Music> => {
     try {
-      const authentication: AuthenticationData = this.authenticator.getData(
-        token
-      );
+      const authentication: AuthenticationData =
+        this.authenticator.getData(token);
       const { title, author, file, genres, album } = input;
       if (!title || !author || !file || !genres || !album) {
         throw new BaseError("Invalid parameters to add a music", 422);
@@ -50,9 +52,8 @@ class MusicBusiness {
 
   public getMusicById = async (token: string, id: string): Promise<Music> => {
     try {
-      const authentication: AuthenticationData = this.authenticator.getData(
-        token
-      );
+      const authentication: AuthenticationData =
+        this.authenticator.getData(token);
       const music = await this.musicDatabase.selectMusicById(
         id,
         authentication.id
@@ -68,9 +69,8 @@ class MusicBusiness {
 
   public getAllMusics = async (token: string): Promise<AllMusics[]> => {
     try {
-      const authentication: AuthenticationData = this.authenticator.getData(
-        token
-      );
+      const authentication: AuthenticationData =
+        this.authenticator.getData(token);
       const result = await this.musicDatabase.selectAllMusics(
         authentication.id
       );
@@ -110,9 +110,8 @@ class MusicBusiness {
 
   public deleteMusic = async (id: string, token: string) => {
     try {
-      const authentication: AuthenticationData = this.authenticator.getData(
-        token
-      );
+      const authentication: AuthenticationData =
+        this.authenticator.getData(token);
       const result = await this.musicDatabase.removeMusic(
         id,
         authentication.id

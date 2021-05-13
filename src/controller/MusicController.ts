@@ -14,7 +14,7 @@ const musicBusiness = new MusicBusiness(
 );
 
 class MusicController {
-  public addMusic = async (req: Request, res: Response) => {
+  public addMusic = async (req: Request, res: Response): Promise<void> => {
     try {
       const token: string = req.headers.authorization as string;
       const { title, author, file, genres, album } = req.body;
@@ -32,7 +32,7 @@ class MusicController {
     }
   };
 
-  public getMusicById = async (req: Request, res: Response) => {
+  public getMusicById = async (req: Request, res: Response): Promise<void> => {
     try {
       const token: string = req.headers.authorization as string;
       const { id } = req.params;
@@ -43,7 +43,7 @@ class MusicController {
     }
   };
 
-  public getAllMusics = async (req: Request, res: Response) => {
+  public getAllMusics = async (req: Request, res: Response): Promise<void> => {
     try {
       const token: string = req.headers.authorization as string;
       const musics = await musicBusiness.getAllMusics(token);
@@ -53,7 +53,7 @@ class MusicController {
     }
   };
 
-  public getAllGenres = async (req: Request, res: Response) => {
+  public getAllGenres = async (req: Request, res: Response): Promise<void> => {
     try {
       const genres = await musicBusiness.getAllGenres();
       res.status(200).send(genres);
@@ -62,7 +62,7 @@ class MusicController {
     }
   };
 
-  public deleteMusic = async (req: Request, res: Response) => {
+  public deleteMusic = async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
       const token: string = req.headers.authorization as string;
