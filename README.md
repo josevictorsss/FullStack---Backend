@@ -2,13 +2,22 @@
 
 ## :memo: Funcionalidades
 
-- 
+- Signup
+- Login
+- Adicionar nova música
+- Criação de playlist
+- Adicionar música a playlist
+- Músicas do usuário
+- Músicas da playlist
+- Playlists do usuário
+- Música por ID
+- Remoção de música
 
 ## 💻 Documentação
 
 Teste as rotas com a documentação, basta importar ela para seu postman.
 
-[Postman - Labefy]()
+[Postman - Labefy Músics](https://documenter.getpostman.com/view/14145831/TzRVg7Kq)
 
 ## ✨ Tecnologias
 
@@ -20,8 +29,12 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Cors
 - Knex
 - MySQL
+- Jest
 - Dotenv
 - Jsonwebtoken
+- Nodemailer
+- Handlebars
+- Dayjs
 
 ## 🚀 Como executar
 
@@ -45,7 +58,7 @@ DB_USER = Coloque aqui seu usuário
 DB_PASSWORD = Coloque aqui sua senha
 DB_SCHEMA = Coloque aqui o nome do banco de dados
 JWT_KEY = Coloque aqui sua chave(aleatório)
-JWT_EXPIRE_TIME = Coloque aqui o tempo que de expirar sua chave.
+ACCESS_TOKEN_EXPIRES_IN = Coloque aqui o tempo que expira sua chave.
 BCRYPT_COST = Coloque aqui um valor(O valor padrão é 12)
 ```
 
@@ -53,6 +66,12 @@ BCRYPT_COST = Coloque aqui um valor(O valor padrão é 12)
 
 ```
 npm run migrations
+```
+
+- Popularize a tabela de gêneros com
+
+```
+npm run populate
 ```
 
 - Inicie o servidor com
