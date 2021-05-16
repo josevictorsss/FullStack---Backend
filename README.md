@@ -1,4 +1,4 @@
-# Labefy - Backend
+# Labefy Musics - Backend
 
 ## :memo: Funcionalidades
 
